@@ -1,17 +1,15 @@
-# app.py (VERSI LENGKAP TANPA DATABASE SQL PERSISTEN)
 
+import os # Pastikan 'os' diimpor di bagian atas file
 from flask import Flask, render_template, request, redirect, url_for, flash, session
-from datetime import datetime, timedelta
-from functools import wraps # Import wraps untuk decorator
+# ... import modul lain yang Anda gunakan (misal: datetime, functools)
 
 app = Flask(__name__)
-# PENTING: GANTI DENGAN KUNCI RAHASIA YANG LEBIH KUAT DAN ACAK DI LINGKUNGAN PRODUKSI!
-# Ini digunakan untuk mengamankan sesi (session) dan pesan flash.
-# Untuk menghasilkan kunci yang kuat, Anda bisa menggunakan Python console:
-# import os
-# os.urandom(24)
-# Contoh: app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
-app.secret_key = 'super_secret_key_unibba_event_app_12345_ganti_ini_dengan_yang_kuat'
+
+# Mengatur secret_key menggunakan variabel lingkungan
+# Jika variabel lingkungan 'FLASK_SECRET_KEY' tidak ditemukan (misal: saat pengembangan lokal tanpa set variabel),
+# maka akan menggunakan kunci default. Pastikan kunci default ini juga kuat.
+app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'kunci_rahasia_sangat_kuat_dan_unik_untuk_pengembangan_lokal_saja')
+
 
 # --- DATA EVENT HARCODED (PENGGANTI DATABASE) ---
 # Data ini akan hilang setiap kali server di-restart
