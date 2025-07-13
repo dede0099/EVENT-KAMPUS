@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tambah Event Baru - Event Kampus UNIBBA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Merriweather:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Link to custom CSS file for additional styling -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <!-- Header section with navigation and dynamic login/logout buttons, now with 3D effect -->
+    <header
+      class="bg-gradient-to-r from-blue-800 to-indigo-900 text-white py-4 px-6 shadow-xl relative z-10 sticky top-0 navbar-3d-effect"
+    >
+      <div
+        class="container mx-auto flex flex-col md:flex-row justify-between items-center"
+      >
+        <h1
+          class="text-3xl lg:text-4xl font-extrabold mb-3 md:mb-0 tracking-wide bg-white bg-opacity-10 backdrop-blur-sm rounded-lg py-2 px-4 border border-white border-opacity-20"
+        >
+          Event Kampus UNIBBA
+        </h1>
+        <nav>
+          <ul
+            class="flex flex-wrap justify-center items-center gap-4 md:gap-6 text-lg font-medium"
+          >
+            <li>
+              <a href="{{ url_for('beranda') }}" class="nav-link">Beranda</a>
+            </li>
+            <li>
+              <a href="{{ url_for('tentang') }}" class="nav-link"
+                >Tentang Kami</a
+              >
+            </li>
+            {% if 'username' in session %}
+            <li>
+              <a href="{{ url_for('dashboard') }}" class="nav-link"
+                >Dashboard</a
+              >
+            </li>
+            {% if session['username'] == 'admin' %}
+            <li>
+              <a href="{{ url_for('tambah_event') }}" class="nav-link"
+                >Tambah Event Baru</a
+              >
+            </li>
+            {% endif %}
+            <li
+              class="flex items-center bg-white bg-opacity-15 rounded-lg py-2 px-4 user-greeting"
+            >
+              Halo,
+              <span class="ml-2 font-semibold text-blue-100"
+                >{{ session['username'] }}!</span
+              >
+            </li>
+            <li>
+              <a
+                href="{{ url_for('logout') }}"
+                class="bg-red-600 hover:bg-red-700 text-white py-2 px-5 rounded-full font-bold shadow-md transition-all duration-300 ease-in-out transform hover:scale-105"
+                >Logout</a
+              >
+            </li>
+            {% endif %} {# Tombol Login dan Registrasi dihilangkan dari navbar
+            #}
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Flash messages container -->
+    <div class="container mx-auto mt-8 px-4">
+      {% with messages = get_flashed_messages(with_categories=true) %} {% if
+      messages %} {% for category, message in messages %}
+      <div
+        class="flash-message {% if category == 'success' %} bg-green-100 text-green-800 border border-green-300 {% elif category == 'error' %} bg-red-100 text-red-800 border border-red-300 {% elif category == 'warning' %} bg-yellow-100 text-yellow-800 border border-yellow-300 {% else %} bg-blue-100 text-blue-800 border border-blue-300 {% endif %}"
+      >
+        {{ message }}
+      </div>
+      {% endfor %} {% endif %} {% endwith %}
+    </div>
+
+    <!-- Main content for adding new event -->
+    <main class="container mx-auto my-16 p-4 flex-grow">
+      <div
+        class="bg-white p-10 rounded-3xl shadow-xl border border-blue-100 max-w-2xl mx-auto"
+      >
+        <h2
+          class="text-4xl md:text-5xl font-extrabold text-gray-800 mb-8 text-center drop-shadow-md leading-tight"
+        >
+          Tambah Event Baru
+        </h2>
+        <!-- Event creation form -->
+        <form method="POST" action="{{ url_for('tambah_event') }}">
+          <div class="mb-6">
+            <label
+              for="nama"
+              class="block text-gray-700 text-lg font-semibold mb-2"
+              >Nama Event</label
+            >
+            <input
+              type="text"
+              id="nama"
+              name="nama"
+              class="form-input"
+              placeholder="Nama Event"
+              required
+            />
+          </div>
+          <div class="mb-6">
+            <label
+              for="deskripsi"
+              class="block text-gray-700 text-lg font-semibold mb-2"
+              >Deskripsi Event</label
+            >
+            <textarea
+              id="deskripsi"
+              name="deskripsi"
+              rows="5"
+              class="form-input"
+              placeholder="Deskripsi Lengkap Event"
+              required
+            ></textarea>
+          </div>
+          <div class="mb-6">
+            <label
+              for="tanggal"
+              class="block text-gray-700 text-lg font-semibold mb-2"
+              >Tanggal</label
+            >
+            <input
+              type="date"
+              id="tanggal"
+              name="tanggal"
+              class="form-input"
+              required
+            />
+          </div>
+          <div class="mb-6">
+            <label
+              for="waktu"
+              class="block text-gray-700 text-lg font-semibold mb-2"
+              >Waktu</label
+            >
+            <input
+              type="time"
+              id="waktu"
+              name="waktu"
+              class="form-input"
+              required
+            />
+          </div>
+          <div class="mb-6">
+            <label
+              for="lokasi"
+              class="block text-gray-700 text-lg font-semibold mb-2"
+              >Lokasi</label
+            >
+            <input
+              type="text"
+              id="lokasi"
+              name="lokasi"
+              class="form-input"
+              placeholder="Contoh: Auditorium, Online via Zoom"
+              required
+            />
+          </div>
+          <div class="mb-6">
+            <label
+              for="biaya_pendaftaran"
+              class="block text-gray-700 text-lg font-semibold mb-2"
+              >Biaya Pendaftaran</label
+            >
+            <input
+              type="text"
+              id="biaya_pendaftaran"
+              name="biaya_pendaftaran"
+              class="form-input"
+              placeholder="Contoh: Gratis, Rp 50.000"
+              required
+            />
+          </div>
+          <div class="mb-6">
+            <label
+              for="kuota"
+              class="block text-gray-700 text-lg font-semibold mb-2"
+              >Kuota Peserta</label
+            >
+            <input
+              type="number"
+              id="kuota"
+              name="kuota"
+              class="form-input"
+              placeholder="Contoh: 100"
+              required
+            />
+          </div>
+          <div class="mb-6">
+            <label
+              for="kontak_person"
+              class="block text-gray-700 text-lg font-semibold mb-2"
+              >Kontak Person</label
+            >
+            <input
+              type="text"
+              id="kontak_person"
+              name="kontak_person"
+              class="form-input"
+              placeholder="Contoh: 08123456789 (John Doe)"
+              required
+            />
+          </div>
+          <div class="mb-8">
+            <label
+              for="image_url"
+              class="block text-gray-700 text-lg font-semibold mb-2"
+              >URL Gambar Event (dari folder static/images)</label
+            >
+            <input
+              type="text"
+              id="image_url"
+              name="image_url"
+              class="form-input"
+              placeholder="Contoh: images/event_seminar.jpg"
+              value="images/event_default.jpg"
+              required
+            />
+            <p class="text-sm text-gray-500 mt-1">
+              Gambar harus ditempatkan di folder `static/images/` atau folder
+              lain yang dapat diakses secara statis. Contoh:
+              `images/nama_gambar.jpg`
+            </p>
+          </div>
+          <div class="flex justify-center">
+            <button type="submit" class="btn-success text-xl">
+              Tambah Event
+            </button>
+          </div>
+        </form>
+      </div>
+    </main>
+
+    <!-- Footer section -->
+    <footer
+      class="bg-gray-900 text-gray-300 p-10 mt-20 text-center shadow-inner"
+    >
+      <p class="text-xl font-medium">
+        &copy; 2025 Event Kampus UNIBBA. Membangun Masa Depan dengan Inovasi &
+        Budaya.
+      </p>
+    </footer>
+  </body>
+</html>

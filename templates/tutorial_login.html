@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tutorial Login & Registrasi - Event Kampus UNIBBA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Merriweather:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <!-- Header navigation -->
+    <header
+      class="bg-gradient-to-r from-blue-800 to-indigo-900 text-white py-4 px-6 shadow-xl relative z-10 sticky top-0 navbar-3d-effect"
+    >
+      <div
+        class="container mx-auto flex flex-col md:flex-row justify-between items-center"
+      >
+        <h1
+          class="text-3xl lg:text-4xl font-extrabold mb-3 md:mb-0 tracking-wide bg-white bg-opacity-10 backdrop-blur-sm rounded-lg py-2 px-4 border border-white border-opacity-20"
+        >
+          Event Kampus UNIBBA
+        </h1>
+        <!-- Navigation removed for tutorial page -->
+      </div>
+    </header>
+
+    <div class="container mx-auto mt-8 px-4">
+      {% with messages = get_flashed_messages(with_categories=true) %} {% if
+      messages %} {% for category, message in messages %}
+      <div
+        class="flash-message {% if category == 'success' %} bg-green-100 text-green-800 border border-green-300 {% elif category == 'error' %} bg-red-100 text-red-800 border border-red-300 {% elif category == 'warning' %} bg-yellow-100 text-yellow-800 border border-yellow-300 {% else %} bg-blue-100 text-blue-800 border border-blue-300 {% endif %}"
+      >
+        {{ message }}
+      </div>
+      {% endfor %} {% endif %} {% endwith %}
+    </div>
+
+    <main class="container mx-auto my-16 p-4 flex-grow">
+      <div
+        class="bg-white p-10 rounded-3xl shadow-xl border border-blue-100 max-w-4xl mx-auto"
+      >
+        <h2
+          class="text-4xl md:text-5xl font-extrabold text-gray-800 mb-8 text-center drop-shadow-md leading-tight"
+        >
+          Tutorial Login & Registrasi
+        </h2>
+
+        <p class="text-gray-700 text-lg mb-10 text-center leading-relaxed">
+          Panduan lengkap untuk mendaftar akun baru dan masuk ke aplikasi Event
+          Kampus UNIBBA.
+        </p>
+
+        <h3 class="text-3xl font-bold text-blue-700 mb-6 text-center">
+          Tutorial Registrasi
+        </h3>
+        <div class="space-y-12 mb-16">
+          <!-- Register Step 1 -->
+          <div class="flex flex-col md:flex-row items-center gap-8">
+            <div class="md:w-1/2">
+              <h4 class="text-2xl font-bold text-gray-800 mb-4">
+                Langkah 1: Akses Halaman Registrasi
+              </h4>
+              <p class="text-gray-700 text-lg leading-relaxed">
+                Dari halaman Login, klik tautan
+                <span class="font-semibold text-blue-700"
+                  >"Daftar di sini"</span
+                >
+                atau tombol "Registrasi" di header jika tersedia.
+              </p>
+            </div>
+            <div class="md:w-1/2 flex justify-center">
+              <img
+                src="{{ url_for('static', filename='images/tutorial_register_step1.png') }}"
+                alt="Halaman Registrasi"
+                class="rounded-lg shadow-lg border border-gray-200 w-full max-w-md"
+                onerror="this.onerror=null;this.src='https://placehold.co/400x250/E0F2F7/374151?text=Register+Page';"
+              />
+            </div>
+          </div>
+
+          <!-- Register Step 2 -->
+          <div class="flex flex-col md:flex-row items-center gap-8">
+            <div class="md:w-1/2 flex justify-center order-2 md:order-1">
+              <img
+                src="{{ url_for('static', filename='images/tutorial_register_step2.png') }}"
+                alt="Isi Data Registrasi"
+                class="rounded-lg shadow-lg border border-gray-200 w-full max-w-md"
+                onerror="this.onerror=null;this.src='https://placehold.co/400x250/E0F2F7/374151?text=Fill+Registration+Data';"
+              />
+            </div>
+            <div class="md:w-1/2 order-1 md:order-2">
+              <h4 class="text-2xl font-bold text-gray-800 mb-4">
+                Langkah 2: Isi Formulir Registrasi
+              </h4>
+              <p class="text-gray-700 text-lg leading-relaxed">
+                Masukkan <strong>Username</strong>, <strong>Email</strong>, dan
+                <strong>Password</strong> yang Anda inginkan. Pastikan email
+                belum pernah terdaftar sebelumnya.
+              </p>
+            </div>
+          </div>
+
+          <!-- Register Step 3 -->
+          <div class="flex flex-col md:flex-row items-center gap-8">
+            <div class="md:w-1/2">
+              <h4 class="text-2xl font-bold text-gray-800 mb-4">
+                Langkah 3: Selesaikan Registrasi
+              </h4>
+              <p class="text-gray-700 text-lg leading-relaxed">
+                Setelah semua data terisi, klik tombol
+                <span class="font-semibold text-blue-700">"Registrasi"</span>.
+                Anda akan menerima pesan konfirmasi dan diarahkan kembali ke
+                halaman Login.
+              </p>
+            </div>
+            <div class="md:w-1/2 flex justify-center">
+              <img
+                src="{{ url_for('static', filename='images/tutorial_register_step3.png') }}"
+                alt="Selesaikan Registrasi"
+                class="rounded-lg shadow-lg border border-gray-200 w-full max-w-md"
+                onerror="this.onerror=null;this.src='https://placehold.co/400x250/E0F2F7/374151?text=Complete+Registration';"
+              />
+            </div>
+          </div>
+        </div>
+
+        <h3 class="text-3xl font-bold text-blue-700 mb-6 text-center">
+          Tutorial Login
+        </h3>
+        <div class="space-y-12">
+          <!-- Login Step 1 -->
+          <div class="flex flex-col md:flex-row items-center gap-8">
+            <div class="md:w-1/2">
+              <h4 class="text-2xl font-bold text-gray-800 mb-4">
+                Langkah 1: Akses Halaman Login
+              </h4>
+              <p class="text-gray-700 text-lg leading-relaxed">
+                Buka aplikasi Event Kampus UNIBBA. Anda akan secara otomatis
+                diarahkan ke halaman Login.
+              </p>
+            </div>
+            <div class="md:w-1/2 flex justify-center">
+              <img
+                src="{{ url_for('static', filename='images/tutorial_login_step1.png') }}"
+                alt="Halaman Login"
+                class="rounded-lg shadow-lg border border-gray-200 w-full max-w-md"
+                onerror="this.onerror=null;this.src='https://placehold.co/400x250/E0F2F7/374151?text=Login+Page';"
+              />
+            </div>
+          </div>
+
+          <!-- Login Step 2 -->
+          <div class="flex flex-col md:flex-row items-center gap-8">
+            <div class="md:w-1/2 flex justify-center order-2 md:order-1">
+              <img
+                src="{{ url_for('static', filename='images/tutorial_login_step2.png') }}"
+                alt="Masukkan Username dan Password"
+                class="rounded-lg shadow-lg border border-gray-200 w-full max-w-md"
+                onerror="this.onerror=null;this.src='https://placehold.co/400x250/E0F2F7/374151?text=Input+Credentials';"
+              />
+            </div>
+            <div class="md:w-1/2 order-1 md:order-2">
+              <h4 class="text-2xl font-bold text-gray-800 mb-4">
+                Langkah 2: Masukkan Kredensial Anda
+              </h4>
+              <p class="text-gray-700 text-lg leading-relaxed">
+                Pada halaman Login, masukkan <strong>Username</strong> dan
+                <strong>Password</strong> yang telah Anda daftarkan.
+              </p>
+              <ul class="list-disc list-inside text-gray-600 mt-4 text-md">
+                <li>
+                  Contoh: Username: <code>user1</code>, Password:
+                  <code>password123</code>
+                </li>
+                <li>
+                  Contoh (Admin): Username: <code>admin</code>, Password:
+                  <code>admin123</code>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Login Step 3 -->
+          <div class="flex flex-col md:flex-row items-center gap-8">
+            <div class="md:w-1/2">
+              <h4 class="text-2xl font-bold text-gray-800 mb-4">
+                Langkah 3: Klik Tombol Login
+              </h4>
+              <p class="text-gray-700 text-lg leading-relaxed">
+                Setelah mengisi username dan password, klik tombol
+                <span class="font-semibold text-green-700">"Login"</span> untuk
+                masuk ke aplikasi.
+              </p>
+            </div>
+            <div class="md:w-1/2 flex justify-center">
+              <img
+                src="{{ url_for('static', filename='images/tutorial_login_step3.png') }}"
+                alt="Klik Login"
+                class="rounded-lg shadow-lg border border-gray-200 w-full max-w-md"
+                onerror="this.onerror=null;this.src='https://placehold.co/400x250/E0F2F7/374151?text=Click+Login';"
+              />
+            </div>
+          </div>
+
+          <!-- Login Step 4 -->
+          <div class="flex flex-col md:flex-row items-center gap-8">
+            <div class="md:w-1/2 flex justify-center order-2 md:order-1">
+              <img
+                src="{{ url_for('static', filename='images/tutorial_login_step4.png') }}"
+                alt="Berhasil Login ke Dashboard"
+                class="rounded-lg shadow-lg border border-gray-200 w-full max-w-md"
+                onerror="this.onerror=null;this.src='https://placehold.co/400x250/E0F2F7/374151?text=Login+Success';"
+              />
+            </div>
+            <div class="md:w-1/2 order-1 md:order-2">
+              <h4 class="text-2xl font-bold text-gray-800 mb-4">
+                Langkah 4: Selamat Datang di Beranda!
+              </h4>
+              <p class="text-gray-700 text-lg leading-relaxed">
+                Jika kredensial Anda benar, Anda akan berhasil login dan
+                diarahkan ke halaman Beranda. Dari sini, Anda bisa menjelajahi
+                berbagai fitur aplikasi.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-12 text-center">
+          <a href="{{ url_for('login') }}" class="btn-primary text-xl"
+            >Kembali ke Halaman Login</a
+          >
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer section -->
+    <footer
+      class="bg-gray-900 text-gray-300 p-10 mt-20 text-center shadow-inner"
+    >
+      <p class="text-xl font-medium">
+        &copy; 2025 Event Kampus UNIBBA. Membangun Masa Depan dengan Inovasi &
+        Budaya.
+      </p>
+    </footer>
+  </body>
+</html>

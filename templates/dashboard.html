@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard - Event Kampus UNIBBA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Merriweather:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Link to custom CSS file for additional styling -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <!-- Header section with navigation and dynamic login/logout buttons, now with 3D effect -->
+    <header
+      class="bg-gradient-to-r from-blue-800 to-indigo-900 text-white py-4 px-6 shadow-xl relative z-10 sticky top-0 navbar-3d-effect"
+    >
+      <div
+        class="container mx-auto flex flex-col md:flex-row justify-between items-center"
+      >
+        <h1
+          class="text-3xl lg:text-4xl font-extrabold mb-3 md:mb-0 tracking-wide bg-white bg-opacity-10 backdrop-blur-sm rounded-lg py-2 px-4 border border-white border-opacity-20"
+        >
+          Event Kampus UNIBBA
+        </h1>
+        <nav>
+          <ul
+            class="flex flex-wrap justify-center items-center gap-4 md:gap-6 text-lg font-medium"
+          >
+            <li>
+              <a href="{{ url_for('beranda') }}" class="nav-link">Beranda</a>
+            </li>
+            <li>
+              <a href="{{ url_for('tentang') }}" class="nav-link"
+                >Tentang Kami</a
+              >
+            </li>
+            {% if 'username' in session %}
+            <li>
+              <a href="{{ url_for('dashboard') }}" class="nav-link"
+                >Dashboard</a
+              >
+            </li>
+            {% if session['username'] == 'admin' %}
+            <li>
+              <a href="{{ url_for('tambah_event') }}" class="nav-link"
+                >Tambah Event Baru</a
+              >
+            </li>
+            {% endif %}
+            <li
+              class="flex items-center bg-white bg-opacity-15 rounded-lg py-2 px-4 user-greeting"
+            >
+              Halo,
+              <span class="ml-2 font-semibold text-blue-100"
+                >{{ session['username'] }}!</span
+              >
+            </li>
+            <li>
+              <a
+                href="{{ url_for('logout') }}"
+                class="bg-red-600 hover:bg-red-700 text-white py-2 px-5 rounded-full font-bold shadow-md transition-all duration-300 ease-in-out transform hover:scale-105"
+                >Logout</a
+              >
+            </li>
+            {% endif %} {# Tombol Login dan Registrasi dihilangkan dari navbar
+            #}
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Flash messages container -->
+    <div class="container mx-auto mt-8 px-4">
+      {% with messages = get_flashed_messages(with_categories=true) %} {% if
+      messages %} {% for category, message in messages %}
+      <div
+        class="flash-message {% if category == 'success' %} bg-green-100 text-green-800 border border-green-300 {% elif category == 'error' %} bg-red-100 text-red-800 border border-red-300 {% elif category == 'warning' %} bg-yellow-100 text-yellow-800 border border-yellow-300 {% else %} bg-blue-100 text-blue-800 border border-blue-300 {% endif %}"
+      >
+        {{ message }}
+      </div>
+      {% endfor %} {% endif %} {% endwith %}
+    </div>
+
+    <!-- Main content for dashboard -->
+    <main class="container mx-auto my-16 p-4 flex-grow">
+      <div
+        class="bg-white p-10 rounded-3xl shadow-xl border border-blue-100 max-w-4xl mx-auto text-center"
+      >
+        <h2
+          class="text-4xl md:text-5xl font-extrabold text-gray-800 mb-8 drop-shadow-md leading-tight"
+        >
+          Selamat Datang di Dashboard, {{ username }}!
+        </h2>
+        <p class="text-gray-700 text-lg mb-6">
+          Dari sini Anda dapat mengelola akun dan mengakses fitur-fitur
+          tertentu.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+          <!-- Profile section -->
+          <div
+            class="bg-blue-50 p-6 rounded-xl shadow-md border border-blue-200"
+          >
+            <h3 class="text-2xl font-bold text-blue-700 mb-4">Profil Saya</h3>
+            <p class="text-gray-700 text-lg mb-4">
+              Lihat dan kelola informasi profil Anda.
+            </p>
+            <a
+              href="{{ url_for('profil_saya') }}"
+              class="btn-primary inline-block"
+              >Lihat Profil</a
+            >
+          </div>
+
+          <!-- Event Management section (only for admin) -->
+          {% if username == 'admin' %}
+          <div
+            class="bg-green-50 p-6 rounded-xl shadow-md border border-green-200"
+          >
+            <h3 class="text-2xl font-bold text-green-700 mb-4">
+              Manajemen Event
+            </h3>
+            <p class="text-gray-700 text-lg mb-4">
+              Tambah, edit, atau hapus event yang ada di kampus.
+            </p>
+            <a
+              href="{{ url_for('tambah_event') }}"
+              class="btn-success inline-block"
+              >Kelola Event</a
+            >
+          </div>
+          {% endif %}
+
+          <!-- My Events section -->
+          <div
+            class="bg-purple-50 p-6 rounded-xl shadow-md border border-purple-200"
+          >
+            <h3 class="text-2xl font-bold text-purple-700 mb-4">Event Saya</h3>
+            <p class="text-gray-700 text-lg mb-4">
+              Lihat daftar event yang Anda ikuti.
+            </p>
+            <a
+              href="{{ url_for('event_saya') }}"
+              class="btn-secondary inline-block"
+              >Lihat Pendaftaran</a
+            >
+          </div>
+
+          <!-- Help & Support section -->
+          <div
+            class="bg-yellow-50 p-6 rounded-xl shadow-md border border-yellow-200"
+          >
+            <h3 class="text-2xl font-bold text-yellow-700 mb-4">
+              Bantuan & Dukungan
+            </h3>
+            <p class="text-gray-700 text-lg mb-4">
+              Butuh bantuan? Hubungi (Dede) selaku pembuat website.
+            </p>
+            <a
+              href="https://wa.me/6282211751764"
+              target="_blank"
+              class="btn-primary inline-block"
+              >Hubungi Dede</a
+            >
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer section -->
+    <footer
+      class="bg-gray-900 text-gray-300 p-10 mt-20 text-center shadow-inner"
+    >
+      <p class="text-xl font-medium">
+        &copy; 2025 Event Kampus UNIBBA. Membangun Masa Depan dengan Inovasi &
+        Budaya.
+      </p>
+    </footer>
+  </body>
+</html>
